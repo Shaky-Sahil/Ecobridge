@@ -9,7 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { AppBar, Button, Card, TextField, Typography } from '@mui/material';
+import { AppBar, Button, Card, Container, TextField, Typography } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -43,7 +43,6 @@ function App() {
     <ThemeProvider theme={theme}>
     <div className="App">
       <header className="App-header">
-      <Typography variant='h1'color='primary'>Ecobridge</Typography>
       <section>
         {user ? <Chatroom/> : <SignIn/> }
       </section>
@@ -61,14 +60,20 @@ function SignIn(){
   }
   
   return(
+    <>
+    <Typography variant='h1'color='primary'>Ecobridge</Typography>
     <Button onClick={ signInWithGoogle }>Sign in with Google</Button>
+    </>
   )
 }
 
 function SignOut(){
 
   return auth.currentUser && (
+    <div className='signout-bar'>
+    <Typography variant='h4'color='primary'>Ecobridge</Typography>
     <Button variant='contained' onClick={()=> auth.signOut()}>Sign Out</Button>
+    </div>
   )
 }
 
@@ -97,8 +102,8 @@ function Chatroom(){
    
   return (
     <>
-    <div>
-      <SignOut/>
+    <SignOut/>
+    <div className='message-cont'>
       {messages && messages.map((msg)=>(
         <ChatMessage key={msg.id} message={msg} />
       ))}
@@ -120,7 +125,7 @@ function ChatMessage(props){
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received'
   return(
     <div className={`message${messageClass}`}>
-    <Card>{text}</Card>
+    <p>{text}</p>
     </div>
   )
 
